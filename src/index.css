@@ -1,0 +1,246 @@
+@import "tailwindcss";
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SpendCheck — "The Ledger" design system
+   Rooted in how India keeps money: the hisaab notebook, thermal receipts,
+   fountain-pen indigo ink. Colours borrow from the Indian palette:
+     peacock  — brand, positive, savings
+     indigo   — needs
+     rani     — wants (the ₹2000-note magenta)
+     marigold — reserved for anything the AI writes
+   Type: Fraunces (soft variable serif) for headlines + AI margin notes,
+         Geist for interface text and tabular figures.
+   The token NAMES below (ink / mint / iris) are kept from v1 so every
+   component re-themes from this file alone: mint = peacock, iris = marigold.
+   ═══════════════════════════════════════════════════════════════════════════ */
+@theme {
+  --font-display: "Fraunces", "Iowan Old Style", Georgia, serif;
+  --font-sans: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "Geist", ui-sans-serif, system-ui, sans-serif;
+
+  /* Dark (default): indigo night */
+  --color-ink-950: #0a0d1b;
+  --color-ink-900: #0e1122;
+  --color-ink-850: #12162a;
+  --color-ink-800: #161a2e;
+  --color-ink-700: #1e2339;
+  --color-ink-600: #2a3050;
+  --color-ink-500: #454b68;
+  --color-ink-400: #80859b;
+  --color-ink-300: #a5a9ba;
+  --color-ink-200: #c6c9d5;
+  --color-ink-100: #e2e4ec;
+  --color-ink-50: #f2f3f7;
+  --color-white: #e9ecff;
+
+  /* Peacock (brand / savings) */
+  --color-mint-200: #a6eadf;
+  --color-mint-300: #6fd9c9;
+  --color-mint-400: #2fbfac;
+  --color-mint-500: #1fa392;
+  --color-mint-600: #168272;
+  --color-mint-700: #0f5f55;
+
+  /* Marigold (AI) */
+  --color-iris-300: #f8d48c;
+  --color-iris-400: #f4b942;
+  --color-iris-500: #e9a10f;
+  --color-iris-600: #c78500;
+
+  --color-need: #8496f5;
+  --color-want: #ec6fa5;
+  --color-save: #2fbfac;
+
+  --color-success: #3ccf8e;
+  --color-warning: #f39c3d;
+  --color-danger: #f26b5e;
+
+  --color-snow: #ffffff;
+  --color-onyx: #0e1122;
+
+  --surface-card: #161a2e;
+  --surface-raised: #1c2137;
+  --surface-field: #12162a;
+  --line: rgb(233 236 255 / 0.1);
+  --line-strong: rgb(233 236 255 / 0.16);
+  --card-shadow: 0 1px 0 rgb(255 255 255 / 0.03) inset;
+  --pop-shadow: 0 24px 64px -20px rgb(0 0 0 / 0.6), 0 0 0 1px rgb(233 236 255 / 0.08);
+  --grain-opacity: 0.05;
+
+  --radius-card: 1.25rem;
+  --shadow-glow: var(--pop-shadow);
+  --shadow-iris: var(--pop-shadow);
+
+  /* Motion — spring curves via linear() + standard/emphasised beziers */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: linear(0, 0.009, 0.035 2.1%, 0.141, 0.281 6.7%, 0.723 12.9%, 0.938 16.7%, 1.017, 1.077, 1.121, 1.149 24.3%, 1.159, 1.163, 1.161, 1.154 29.9%, 1.129 32.8%, 1.051 39.6%, 1.017 43.1%, 0.991, 0.977 51%, 0.974 53.8%, 0.975 57.1%, 0.997 69.8%, 1.003 76.9%, 1);
+  --ease-spring-soft: linear(0, 0.006, 0.025 2.8%, 0.101 6.1%, 0.539 18.9%, 0.721 25.3%, 0.849 31.5%, 0.937 38.1%, 0.968 41.8%, 0.991 45.7%, 1.006 50.1%, 1.015 55%, 1.017 63.9%, 1.001);
+
+  --animate-rise: rise 0.7s var(--ease-out) both;
+  --animate-fade: fade 0.35s var(--ease-out) both;
+  --animate-pop: pop 0.5s var(--ease-spring) both;
+  --animate-scan: scan 2.2s var(--ease-in-out) infinite;
+  --animate-shimmer: shimmer 1.6s linear infinite;
+  --animate-stamp: stamp 0.45s var(--ease-spring) both;
+
+  @keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+  @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes pop { from { opacity: 0; transform: scale(0.94) translateY(6px); } to { opacity: 1; transform: none; } }
+  @keyframes scan { 0% { top: 4%; } 50% { top: 92%; } 100% { top: 4%; } }
+  @keyframes shimmer { from { background-position: -200% 0; } to { background-position: 200% 0; } }
+  @keyframes stamp { from { opacity: 0; transform: scale(1.8) rotate(-12deg); } to { opacity: 1; transform: scale(1) rotate(-4deg); } }
+}
+
+/* Light: clean white with bordered cards. The ink scale inverts so components need no dark: classes. */
+:root[data-theme="light"] {
+  color-scheme: light;
+  --color-ink-950: #ffffff;
+  --color-ink-900: #ffffff; /* page: pure white */
+  --color-ink-850: #f7f8fa; /* sidebar / alternating bands: cool light grey */
+  --color-ink-800: #ffffff;
+  --color-ink-700: #eef0f4;
+  --color-ink-600: #e1e4ea;
+  --color-ink-500: #a7adba;
+  --color-ink-400: #6b6f82;
+  --color-ink-300: #4c5166;
+  --color-ink-200: #343a50;
+  --color-ink-100: #22273d;
+  --color-ink-50: #151a30;
+  --color-white: #151a30;
+
+  --color-mint-200: #075249;
+  --color-mint-300: #0a6359;
+  --color-mint-400: #0c7a6d;
+  --color-mint-500: #0a6c61;
+  --color-mint-600: #085b52;
+
+  --color-iris-300: #7a4f00;
+  --color-iris-400: #9a6400;
+  --color-iris-500: #e9a10f;
+  --color-iris-600: #b37800;
+
+  --color-need: #4a5fd6;
+  --color-want: #c93d7c;
+  --color-save: #0c8a7b;
+  --color-success: #12875a;
+  --color-warning: #c2640a;
+  --color-danger: #c8392d;
+
+  --surface-card: #ffffff;
+  --surface-raised: #ffffff;
+  --surface-field: #ffffff;
+  --line: #e3e6ec;          /* card borders: clearly visible on white */
+  --line-strong: #cfd4dd;
+  --card-shadow: 0 1px 2px rgb(21 26 48 / 0.04), 0 4px 16px -8px rgb(21 26 48 / 0.08);
+  --pop-shadow: 0 24px 60px -24px rgb(21 26 48 / 0.28), 0 0 0 1px rgb(21 26 48 / 0.08);
+  --grain-opacity: 0;
+}
+
+@layer base {
+  html {
+    background: var(--color-ink-900);
+    color: var(--color-ink-50);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv11";
+    -webkit-font-smoothing: antialiased;
+    color-scheme: dark;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    text-rendering: optimizeLegibility;
+  }
+  /* Paper grain — a tactile texture instead of gradient washes */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    pointer-events: none;
+    opacity: var(--grain-opacity);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    mix-blend-mode: overlay;
+  }
+  body { min-height: 100dvh; }
+  ::selection { background: color-mix(in srgb, var(--color-mint-400) 30%, transparent); }
+  h1, h2, h3, .font-display {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+    font-variation-settings: "SOFT" 40, "WONK" 0;
+    font-weight: 450;
+    letter-spacing: -0.025em;
+  }
+  :focus-visible { outline: 2px solid var(--color-mint-400); outline-offset: 2px; border-radius: 0.5rem; }
+  input, select, textarea, button { font: inherit; }
+  * { scrollbar-width: thin; scrollbar-color: var(--color-ink-600) transparent; }
+}
+
+@layer components {
+  /* Figures: tabular, slashed-free, aligned — never monospace */
+  .num { font-family: var(--font-sans); font-variant-numeric: tabular-nums; font-feature-settings: "tnum", "ss01"; letter-spacing: -0.015em; }
+  .money-xl { font-family: var(--font-sans); font-variant-numeric: tabular-nums; font-weight: 500; letter-spacing: -0.045em; line-height: 0.95; }
+
+  .card {
+    border-radius: var(--radius-card);
+    border: 1px solid var(--line);
+    background: var(--surface-card);
+    box-shadow: var(--card-shadow);
+  }
+  /* AI note: a margin annotation in the ledger — marigold rule, serif italic voice */
+  .card-ai {
+    border-radius: var(--radius-card);
+    border: 1px solid color-mix(in srgb, var(--color-iris-500) 22%, var(--line));
+    background:
+      linear-gradient(color-mix(in srgb, var(--color-iris-500) 5%, transparent), color-mix(in srgb, var(--color-iris-500) 5%, transparent)),
+      var(--surface-card);
+    box-shadow: var(--card-shadow);
+  }
+  .ai-voice { font-family: var(--font-display); font-style: italic; font-variation-settings: "SOFT" 100, "WONK" 1; font-weight: 400; letter-spacing: -0.01em; }
+
+  .field {
+    width: 100%;
+    border-radius: 0.75rem;
+    border: 1px solid var(--line-strong);
+    background: var(--surface-field);
+    padding: 0.7rem 0.9rem;
+    color: var(--color-ink-50);
+    transition: border-color 0.15s, box-shadow 0.2s var(--ease-out);
+  }
+  .field::placeholder { color: var(--color-ink-400); }
+  .field:focus { outline: none; border-color: var(--color-mint-400); box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-mint-400) 16%, transparent); }
+  .label { display: block; margin-bottom: 0.4rem; font-size: 0.8125rem; font-weight: 500; color: var(--color-ink-300); }
+
+  .hairline { border-color: var(--line); }
+  .ruled {
+    background-image: repeating-linear-gradient(to bottom, transparent 0 31px, var(--line) 31px 32px);
+  }
+  .grid-bg { background-image: none; }
+  .skeleton {
+    background: linear-gradient(90deg, var(--color-ink-800) 25%, var(--color-ink-700) 50%, var(--color-ink-800) 75%);
+    background-size: 200% 100%;
+    animation: var(--animate-shimmer);
+    border-radius: 0.75rem;
+  }
+  .text-gradient { color: var(--color-mint-400); }
+
+  /* Press feedback shared by every pressable */
+  .pressable { transition: transform 0.4s var(--ease-spring), background-color 0.2s, color 0.2s, box-shadow 0.2s; }
+  .pressable:active { transform: scale(0.97); transition-duration: 0.08s; }
+
+  /* Receipt paper (landing hero) */
+  .receipt {
+    background: #fbfbf8;
+    color: #1b1f2e;
+    font-family: "Geist Mono", ui-monospace, monospace;
+    --tooth: 9px;
+    -webkit-mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / var(--tooth) 100%;
+    mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / var(--tooth) 100%;
+  }
+}
+
+/* View-transition theme switch: new theme spreads from the toggle as a circle */
+::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+::view-transition-new(root) { z-index: 2; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
